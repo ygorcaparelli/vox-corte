@@ -1,0 +1,29 @@
+.clip-editor{border-top:1px solid #30353a;border-bottom:1px solid #30353a;margin-bottom:18px;background:#121416}
+.clip-canvas.selecting-mode,.selecting-mode .timeline-clip{cursor:crosshair}
+.timeline-range{position:absolute;top:46px;bottom:30px;border:2px solid #ff794e;background:#ff794e2b;z-index:4;pointer-events:none;box-sizing:border-box}
+.timeline-range>span{position:absolute;top:3px;left:4px;background:#171717ee;color:#fff;padding:3px 5px;white-space:nowrap;font-size:11px}
+.clip-tools button[aria-pressed=true]{color:#ff946e;background:#39241e}
+.trim-time{position:absolute;top:135px;font-size:12px;background:#292321;color:#ffd4c4;padding:3px 6px;pointer-events:none;z-index:5}
+.clip-selected .filmstrip{box-shadow:inset 0 0 0 2px #ff794e}
+.clip-transport{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 12px;border-bottom:1px solid #282b2e}
+.clip-transport>output{font-size:12px;font-variant-numeric:tabular-nums;min-width:140px}.clip-transport>output span{color:#8e949b}
+.clip-transport>div{display:flex;gap:4px}.clip-transport button,.clip-tools button{background:transparent;border:0;min-width:32px;padding:6px;border-radius:3px}.clip-transport button:hover,.clip-tools button:hover{background:#303438}
+.clip-body{display:grid;grid-template-columns:60px minmax(0,1fr)}
+.track-labels{display:flex;align-items:flex-start;justify-content:center;padding-top:79px;font-size:11px;color:#a9b0b6;border-right:1px solid #282b2e}.track-labels span{display:flex;align-items:center;gap:4px}
+.clip-viewport-frame{position:relative;min-width:0}.clip-scroll{overflow-x:auto;overflow-y:hidden;scrollbar-color:#596067 #121416;overscroll-behavior-x:contain}
+.clip-canvas{height:184px;position:relative;touch-action:none;background:#17191b;cursor:grab}.clip-canvas:active{cursor:grabbing}
+.clip-ruler{height:43px;overflow:hidden;position:absolute;inset:0 0 auto;border-bottom:1px solid #202326}
+.clip-ruler span{position:absolute;top:6px;font-size:10px;color:#a3a9b0;white-space:nowrap;transform:translateX(-50%);height:32px}.clip-ruler span:after{content:'';position:absolute;bottom:0;left:50%;height:5px;width:1px;background:#676e75}
+.timeline-clip{position:absolute;top:62px;height:66px;border:1px solid #50565c;border-radius:2px;background:#293039;overflow:hidden;cursor:grab}
+.timeline-clip.clip-selected{border:2px solid #fff;box-shadow:0 0 0 1px #111}
+.timeline-clip:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.filmstrip{height:100%;position:relative;overflow:hidden;background:#263039}
+.filmstrip img{position:absolute;top:0;width:96px;height:100%;object-fit:contain;background:#0d0e0e;pointer-events:none;user-select:none}
+.filmstrip>span{position:absolute;top:3px;left:12px;background:#111b;color:#fff;font-size:10px;padding:2px 4px;white-space:nowrap;max-width:calc(100% - 24px);overflow:hidden;pointer-events:none}
+.trim-handle{position:absolute;top:0;bottom:0;width:10px;min-height:0;border:0;border-radius:0;padding:0;background:#7777;cursor:ew-resize;touch-action:none;z-index:2}.trim-handle.start{left:0}.trim-handle.end{right:0}.trim-handle span{height:18px;width:2px;background:#fff}
+.clip-selected .trim-handle{background:#fff}.clip-selected .trim-handle span{background:#25282a}.trim-handle:hover,.trim-handle:focus-visible{background:#fff;outline-offset:-2px}
+.clip-playhead{position:absolute;top:36px;bottom:14px;width:2px;background:#fff;z-index:3;cursor:ew-resize;touch-action:none}.clip-playhead:before{content:'';position:absolute;top:0;left:-3px;width:8px;height:8px;background:#fff;border-radius:1px}.clip-playhead:focus-visible{outline:2px solid #54d5aa;outline-offset:4px}
+.clip-ruler span:first-child{transform:none}.clip-ruler span:first-child:after{left:0}
+.clip-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 12px;border-top:1px solid #282b2e}.clip-tools input{width:120px;padding:0;accent-color:#ddd}.clip-tools output{font-size:11px;color:#acb3ba;font-variant-numeric:tabular-nums}.clip-selection{min-width:140px}.clip-zoom{display:flex;align-items:center;gap:6px;margin-left:auto}.clip-zoom output{min-width:28px}
+.source-selection summary{font-size:12px;color:#b9c6cf;cursor:pointer;margin-bottom:10px}.source-selection summary:focus-visible{outline:2px solid #54d5aa;outline-offset:3px}.source-selection .wave{height:44px}
+@media(max-width:600px){.clip-body{grid-template-columns:minmax(0,1fr)}.track-labels{display:none}.clip-tools{gap:5px;padding-inline:6px}.clip-tools input{width:70px}.clip-transport{padding-inline:8px;gap:8px}.clip-selection{min-width:0;flex:1}.clip-zoom{flex-basis:100%;justify-content:flex-end}}
