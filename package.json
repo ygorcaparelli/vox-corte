@@ -1,0 +1,76 @@
+{
+  "name": "fala-corte",
+  "version": "1.12.2",
+  "private": true,
+  "description": "Editor local de vídeo por transcrição",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --configLoader runner",
+    "desktop": "electron .",
+    "build": "tsc --noEmit && vite build --configLoader runner",
+    "start": "electron .",
+    "test": "vitest run --configLoader runner",
+    "dist": "npm run build && electron-builder --win nsis"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "mediabunny": "1.61.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^33.3.1",
+    "electron-builder": "^25.1.8",
+    "playwright": "1.61.1",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7",
+    "vitest": "^3.0.5"
+  },
+  "build": {
+    "compression": "store",
+    "electronDist": "node_modules/electron/dist",
+    "appId": "br.local.falacorte",
+    "productName": "Vox Corte",
+    "directories": {
+      "output": "outputs/release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "backend",
+        "to": "backend",
+        "filter": [
+          "**/*.py",
+          "requirements.txt"
+        ]
+      },
+      {
+        "from": "runtime",
+        "to": "runtime"
+      }
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/voxcorte-app.ico",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "runAfterFinish": true,
+      "installerLanguages": ["pt_BR"],
+      "language": "1046"
+    }
+  }
+}

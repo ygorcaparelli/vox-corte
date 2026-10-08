@@ -1,0 +1,17 @@
+node_modules/
+dist/
+dist-timeline/
+work/
+runtime/
+.venv/
+__pycache__/
+.local/
+outputs/
+*.log
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.falacorte.json
+.pytest_cache/
