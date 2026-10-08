@@ -1,0 +1,57 @@
+const {chromium}=require('playwright');
+const fs=require('node:fs'),path=require('node:path');
+(async()=>{
+ const browser=await chromium.launch({headless:true});
+ const page=await browser.newPage({viewport:{width:1440,height:1000}});
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.route('**/export-location',route=>route.fulfill({json:{path:path.resolve(process.env.FALA_DATA||'.local/tmp','clip-export-test.mp4')}}));
+ const project=path.resolve('outputs/projeto-clipes-teste.json');
+ fs.writeFileSync(project,JSON.stringify({version:1,videoPath:path.resolve('outputs/teste-original.mp4'),edit:{words:[],cuts:[{id:'middle',start:2,end:4,label:'Pausa'}]}}));
+ const {ready:waitPreview,seekPreview}=require('./preview_test_helpers.cjs');
+ const ready=duration=>waitPreview(page,duration);
+ async function pixel(t){await seekPreview(page,t);return page.evaluate(()=>{const v=document.querySelector('.smooth-preview')||document.querySelector('video'),c=document.createElement('canvas');c.width=16;c.height=16;const x=c.getContext('2d');x.drawImage(v,0,0,16,16);return [...x.getImageData(8,8,1,1).data];});}
+ try{
+  const jobs=[];page.on('request',r=>{if(r.method()==='POST'&&r.url().endsWith('/jobs'))jobs.push(r.postDataJSON()?.kind);});
+  await page.goto(process.env.FALA_UI_URL||'http://127.0.0.1:5176/?porta=8772');await page.getByText('Processamento local',{exact:true}).waitFor();
+  await page.locator('input[type=file]').nth(1).setInputFiles(project);await ready(4);
+  await page.waitForFunction(()=>[...document.querySelectorAll('.filmstrip img')].some(i=>i.complete&&i.naturalWidth>0));
+  if(await page.locator('.clip-audio,.bars').count())throw Error('Faixa de audio ainda aparece');
+  if(await page.locator('.track-labels').innerText()!=='Vídeo')throw Error('Rotulo da faixa incorreto');
+  if(await page.locator('.wave').isVisible())throw Error('Selecao manual deve iniciar recolhida');
+  if(jobs.includes('waveform'))throw Error('Importacao ainda calcula waveform desnecessaria');
+  await page.locator('.clip-editor').scrollIntoViewIfNeeded();
+  const view=await page.locator('.clip-scroll').boundingBox(),scale=Number(await page.locator('.clip-canvas').getAttribute('data-scale'));
+  await page.mouse.move(view.x+view.width/2,view.y+155);await page.mouse.down();await page.mouse.move(view.x+view.width/2-scale,view.y+155,{steps:10});await page.mouse.up();
+  const handle=await page.getByRole('button',{name:'Fim do clipe 1',exact:true}).boundingBox();
+  await page.mouse.move(handle.x+handle.width/2,handle.y+20);await page.mouse.down();await page.mouse.move(handle.x+handle.width/2+scale,handle.y+20,{steps:12});await page.mouse.up();
+  await ready(5);
+  const green=await pixel(2.5);if(!(green[1]>70&&green[0]<40))throw Error('Arraste nao recuperou video verde: '+green);
+  const start=await page.locator('[data-cut-id] input').first().inputValue();if(Math.abs(Number(start)-3)>.02)throw Error('Corte nao foi atualizado: '+start);
+  await page.getByRole('button',{name:'Desfazer',exact:true}).click();await ready(4);
+  const blue=await pixel(2.5);if(!(blue[2]>200&&blue[1]<40))throw Error('Desfazer nao restaurou corte');
+  await page.getByRole('button',{name:'Refazer',exact:true}).click();await ready(5);
+  await page.getByRole('button',{name:'Fim do clipe 1',exact:true}).focus();await page.keyboard.press('ArrowLeft');await ready(4.9);
+  const beforeZoom=Number(await page.locator('.clip-canvas').getAttribute('data-scale'));
+  await page.getByRole('button',{name:'Aumentar zoom',exact:true}).click();
+  await page.waitForFunction(before=>Number(document.querySelector('.clip-canvas').dataset.scale)>=before*1.99,beforeZoom);
+  await page.getByRole('button',{name:'Ajustar à janela',exact:true}).click();
+  const sourceView=await page.locator('.clip-scroll').boundingBox(),sourceScale=Number(await page.locator('.clip-canvas').getAttribute('data-scale'));
+  await page.mouse.click(sourceView.x+sourceScale,sourceView.y+18);
+  await page.waitForFunction(()=>Math.abs(Number(document.querySelector('.player-position').value)-1)<.1);
+  await page.getByRole('button',{name:'Exportar MP4',exact:true}).click();await page.getByText(/Exportação concluída:/).waitFor({timeout:60000});
+  const downloadEvent=page.waitForEvent('download');await page.getByRole('link',{name:'Baixar MP4 exportado'}).click();await (await downloadEvent).saveAs(path.resolve('outputs/clipes-editados-teste.mp4'));
+  await page.locator('.clip-editor').scrollIntoViewIfNeeded();
+  const joiningScale=Number(await page.locator('.clip-canvas').getAttribute('data-scale')),joiningHandle=await page.getByRole('button',{name:'Início do clipe 2',exact:true}).boundingBox();
+  await page.mouse.move(joiningHandle.x+joiningHandle.width/2,joiningHandle.y+20);await page.mouse.down();await page.mouse.move(joiningHandle.x+joiningHandle.width/2-joiningScale*1.2,joiningHandle.y+20,{steps:10});await page.mouse.up();
+  await ready(6);if(await page.locator('[data-cut-id]').count())throw Error('Recuperar toda a pausa nao uniu os clipes');
+  await page.getByRole('button',{name:'Desfazer',exact:true}).click();await ready(4.9);
+  await page.locator('.clip-editor').scrollIntoViewIfNeeded();
+  const cancelHandle=await page.getByRole('button',{name:'Fim do clipe 1',exact:true}).boundingBox();
+  await page.mouse.move(cancelHandle.x+cancelHandle.width/2,cancelHandle.y+20);await page.mouse.down();await page.mouse.move(cancelHandle.x+cancelHandle.width/2+30,cancelHandle.y+20,{steps:5});await page.keyboard.press('Escape');await page.mouse.up();await ready(4.9);
+  await page.screenshot({path:'outputs/clipes-desktop.png',fullPage:true});
+  await page.setViewportSize({width:390,height:900});await page.screenshot({path:'outputs/clipes-mobile.png',fullPage:true});
+  if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('Layout mobile transborda');
+  if(errors.length||await page.getByRole('alert').count())throw Error(errors.join('\n')||'Erro no processamento');
+  console.log('Clipes OK: miniaturas reais, recuperar por arraste, preview 4 -> 5 s com verde restaurado, desfazer/refazer, teclado, zoom, seek, exportacao, recuperar toda a pausa, cancelar arraste e mobile.');
+ }catch(e){await page.screenshot({path:'outputs/clipes-falha.png',fullPage:true});console.log(await page.evaluate(()=>({duration:document.querySelector('video')?.duration,cuts:[...document.querySelectorAll('[data-cut-id] input')].map(i=>i.value),status:document.querySelector('.job')?.textContent,alert:document.querySelector('[role=alert]')?.textContent})));throw e;}finally{await browser.close();}
+})().catch(e=>{console.error(e);process.exitCode=1;});
