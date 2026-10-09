@@ -10,13 +10,15 @@ const icons = {
   captions: lucide.Captions, 'file-video': lucide.FileVideo,
   'arrow-right': lucide.ArrowRight, 'arrow-up-right': lucide.ArrowUpRight,
   github: lucide.Github, 'shield-check': lucide.ShieldCheck, copy: lucide.Copy,
+  pause: lucide.Pause, 'arrow-down': lucide.ArrowDown, maximize: lucide.Maximize2,
+  x: lucide.X,
 };
 const file = path.join(__dirname, '..', 'docs', 'index.html');
 let html = fs.readFileSync(file, 'utf8');
 for (const [name, icon] of Object.entries(icons)) {
   const markup = renderToStaticMarkup(React.createElement(icon, { 'aria-hidden': 'true', focusable: 'false', strokeWidth: 1.7 }));
-  const pattern = new RegExp(`<span data-icon="${name}">(?:<svg[\\s\\S]*?</svg>)?</span>`, 'g');
-  html = html.replace(pattern, `<span data-icon="${name}">${markup}</span>`);
+  const pattern = new RegExp(`<span([^>]*\\bdata-icon="${name}"[^>]*)>(?:<svg[\\s\\S]*?</svg>)?</span>`, 'g');
+  html = html.replace(pattern, `<span$1>${markup}</span>`);
 }
 fs.writeFileSync(file, html);
 console.log('Site icons generated from lucide-react.');

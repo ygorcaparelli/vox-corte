@@ -26,16 +26,19 @@
         <a href="#demonstracao">Demonstração</a>
         <a href="#duvidas">Dúvidas</a>
       </nav>
+      <button class="motion-toggle icon-button" id="motion-toggle" type="button" aria-label="Pausar animações" aria-pressed="false" title="Pausar animações"><span class="motion-pause" data-icon="pause"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pause" aria-hidden="true" focusable="false"><rect x="14" y="4" width="4" height="16" rx="1"></rect><rect x="6" y="4" width="4" height="16" rx="1"></rect></svg></span><span class="motion-play" data-icon="play"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play" aria-hidden="true" focusable="false"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span></button>
       <a class="button button-small button-outline header-download" href="#baixar"><span data-icon="download"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg></span>Baixar</a>
     </div>
   </header>
+  <div class="page-progress" aria-hidden="true"></div>
 
   <main id="conteudo">
     <section class="hero" id="inicio" aria-labelledby="hero-title">
+      <div class="hero-scene" aria-hidden="true"><video id="hero-reel" muted loop playsinline preload="none" poster="assets/editor.png" data-src="assets/editor-reel.mp4" tabindex="-1"></video></div>
       <div class="hero-copy">
-        <p class="eyebrow"><span class="status-dot"></span> FEITO PARA QUEM CRIA CONTEÚDO</p>
-        <h1 id="hero-title">Vox <span>Corte</span></h1>
-        <p class="hero-tagline">Menos tempo cortando.<br> Mais tempo criando.</p>
+        <p class="eyebrow"><span class="status-dot"></span> A SUA FALA TEM RITMO. A EDIÇÃO TAMBÉM.</p>
+        <h1 id="hero-title"><span class="title-vox">Vox</span> <span class="title-corte">Corte</span><span class="hero-signal" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></h1>
+        <p class="hero-tagline">Menos tempo cortando.<br> <span class="kinetic-underline">Mais tempo criando.</span></p>
         <p class="hero-description">Apague uma frase. Corte o vídeo. Dê dinâmica com zoom.<br class="desktop-break"> Tudo no seu computador, sem mais uma assinatura.</p>
         <div class="hero-actions">
           <a class="button button-primary" data-download href="https://github.com/ygorcaparelli/vox-corte/releases/download/v1.12.2/Vox-Corte-Instalar-1.12.2.exe"><span data-icon="download"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg></span>Baixar para Windows</a>
@@ -43,10 +46,7 @@
         </div>
         <p class="download-meta">Windows 10 e 11 · 64 bits · v1.12.2 · 249,7 MiB</p>
       </div>
-      <figure class="hero-product">
-        <img src="assets/editor.png" alt="Vox Corte em uso: frase excluída na transcrição, prévia e cortes na linha do tempo." width="2000" height="1125" fetchpriority="high">
-        <figcaption><span class="status-dot"></span> Captura real do aplicativo <span class="caption-right">Vídeo demonstrativo sintético · versão 1.12.2</span></figcaption>
-      </figure>
+      <div class="hero-footer"><p><span class="status-dot"></span> App real. Mídia demonstrativa sintética.</p><a href="#experimente" class="scroll-cue">Descubra o ritmo <span data-icon="arrow-down"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down" aria-hidden="true" focusable="false"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></span></a><p class="hero-version">LOCAL POR ESCOLHA · v1.12.2</p></div>
     </section>
 
     <section class="principles" aria-label="Princípios do Vox Corte">
@@ -54,6 +54,31 @@
       <div><span data-icon="scissors"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-scissors" aria-hidden="true" focusable="false"><circle cx="6" cy="6" r="3"></circle><path d="M8.12 8.12 12 12"></path><path d="M20 4 8.12 15.88"></path><circle cx="6" cy="18" r="3"></circle><path d="M14.8 14.8 20 20"></path></svg></span><strong>Corte de verdade</strong><p>A edição sai no áudio e no vídeo.</p></div>
       <div><span data-icon="undo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-undo2" aria-hidden="true" focusable="false"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></span><strong>Original preservado</strong><p>Revise, restaure e tente de novo.</p></div>
     </section>
+
+    <section class="cut-lab" id="experimente" aria-labelledby="lab-title">
+      <div class="lab-inner">
+        <div class="lab-heading"><div><p class="eyebrow">DA PALAVRA AO CORTE</p><h2 id="lab-title">Menos “é...”.<br>Mais <em>ação.</em></h2></div><p>Uma palavra sai.<br>A montagem ganha ritmo.</p></div>
+        <div class="lab-toolbar"><span class="lab-label">EXEMPLO INTERATIVO <span class="lab-dot"></span></span><div><button type="button" class="button button-small lab-cut" id="sample-cut"><span data-icon="scissors"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-scissors" aria-hidden="true" focusable="false"><circle cx="6" cy="6" r="3"></circle><path d="M8.12 8.12 12 12"></path><path d="M20 4 8.12 15.88"></path><circle cx="6" cy="18" r="3"></circle><path d="M14.8 14.8 20 20"></path></svg></span>Ver corte</button><button type="button" class="icon-button" id="sample-reset" aria-label="Restaurar exemplo" title="Restaurar exemplo"><span data-icon="undo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-undo2" aria-hidden="true" focusable="false"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></span></button></div></div>
+        <div class="sample-transcript" role="group" aria-label="Palavras do exemplo de edição">
+          <button type="button" class="sample-word" data-word="0" aria-pressed="false">Hoje</button>
+          <button type="button" class="sample-word" data-word="1" aria-pressed="false">eu</button>
+          <button type="button" class="sample-word" data-word="2" aria-pressed="false">vou</button>
+          <button type="button" class="sample-word" data-word="3" data-filler aria-pressed="false">é...</button>
+          <button type="button" class="sample-word" data-word="4" aria-pressed="false">mostrar</button>
+          <button type="button" class="sample-word" data-word="5" data-filler aria-pressed="false">tipo...</button>
+          <button type="button" class="sample-word" data-word="6" aria-pressed="false">um</button>
+          <button type="button" class="sample-word" data-word="7" aria-pressed="false">vídeo</button>
+          <button type="button" class="sample-word" data-word="8" aria-pressed="false">com</button>
+          <button type="button" class="sample-word" data-word="9" aria-pressed="false">mais</button>
+          <button type="button" class="sample-word" data-word="10" aria-pressed="false">ritmo.</button>
+        </div>
+        <div class="sample-timeline" aria-hidden="true"><div class="sample-track" id="sample-track"></div><div class="sample-playhead"></div></div>
+        <div class="lab-bottom"><p class="small-note">Simulação ilustrativa. No aplicativo, os cortes são aplicados ao áudio e ao vídeo.</p><p class="sample-result"><span id="sample-duration">7,0 s</span><span id="sample-saved">Original preservado</span></p></div>
+        <p class="sr-only" id="sample-announcement" role="status"></p>
+      </div>
+    </section>
+
+    <div class="type-marquee" aria-hidden="true"><div><p><span>Sua fala.</span><span>Seu ritmo.</span><span>Seu corte.</span><span>Sua criação.</span></p><p><span>Sua fala.</span><span>Seu ritmo.</span><span>Seu corte.</span><span>Sua criação.</span></p></div></div>
 
     <section class="section resources" id="recursos" aria-labelledby="resources-title">
       <div class="section-heading">
@@ -74,7 +99,7 @@
           </button>
         </div>
         <figure class="feature-media" id="painel-recurso" role="tabpanel" aria-labelledby="tab-texto" tabindex="0">
-          <img id="feature-image" src="assets/transcricao.png" alt="Transcrição real com palavras e timestamps no editor Vox Corte." width="2000" height="1125" loading="lazy">
+          <button class="capture-open" type="button" aria-label="Ampliar captura do editor" title="Ampliar captura"><img id="feature-image" src="assets/transcricao.png" alt="Transcrição real com palavras e timestamps no editor Vox Corte." width="2000" height="1125" loading="lazy"><span class="capture-zoom" data-icon="maximize"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-maximize2" aria-hidden="true" focusable="false"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" x2="14" y1="3" y2="10"></line><line x1="3" x2="10" y1="21" y2="14"></line></svg></span></button>
           <figcaption id="feature-caption">Transcrição por palavra, com processamento no computador.</figcaption>
         </figure>
       </div>
@@ -92,7 +117,7 @@
         <p>Uma demonstração curta do fluxo, dentro do aplicativo real.</p>
       </div>
       <div class="demo-layout">
-        <video controls playsinline preload="none" poster="assets/editor.png" aria-label="Demonstração do Vox Corte, 30 segundos" aria-describedby="demo-note">
+        <video id="demo-video" controls playsinline preload="none" poster="assets/editor.png" aria-label="Demonstração do Vox Corte, 30 segundos" aria-describedby="demo-note">
           <source src="assets/demonstracao.mp4" type="video/mp4">
           <track kind="captions" src="assets/demonstracao.pt-BR.vtt" srclang="pt-BR" label="Português do Brasil">
           Seu navegador não reproduz este vídeo. <a href="assets/demonstracao.mp4">Baixar demonstração</a>.
@@ -135,6 +160,8 @@
       </div>
     </section>
   </main>
+
+  <dialog class="capture-dialog" id="capture-dialog" aria-label="Captura ampliada do Vox Corte"><div class="dialog-toolbar"><p>VOX CORTE <span>· captura real do aplicativo</span></p><button class="icon-button" id="close-capture" type="button" aria-label="Fechar captura" title="Fechar captura"><span data-icon="x"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x" aria-hidden="true" focusable="false"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></span></button></div><img id="capture-image" alt=""></dialog>
 
   <footer><a class="brand" href="#inicio"><img src="assets/voxcorte-wordmark.png" alt="Vox Corte" width="150" height="50" loading="lazy"></a><p>Feito para criar. Em desenvolvimento.</p><div><a href="https://github.com/ygorcaparelli/vox-corte" target="_blank" rel="noopener noreferrer">GitHub <span data-icon="arrow-up-right"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right" aria-hidden="true" focusable="false"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></a><a href="https://github.com/ygorcaparelli/vox-corte/releases" target="_blank" rel="noopener noreferrer">Versões <span data-icon="arrow-up-right"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right" aria-hidden="true" focusable="false"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></a></div></footer>
 </body>

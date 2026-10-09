@@ -41,3 +41,21 @@ real com mídia sintética de teste, sem vídeos pessoais. A demonstração foi 
 para este projeto, com narração sintética. Os ícones são gerados de `lucide-react`,
 a dependência já utilizada pelo editor, por `node scripts/build_site_icons.cjs`.
 O site não usa CDN, analytics, fontes remotas nem dependências em runtime.
+
+## Movimento e Interação
+
+A abertura usa `assets/editor-reel.mp4`, um loop silencioso de 12 segundos,
+1280 × 720, gerado das cenas demonstrativas por `scripts/build_site_reel.py`.
+O script usa o FFmpeg já disponível no ambiente do aplicativo; os arquivos
+de origem ficam em `outputs/linkedin`, fora do Git. O MP4 final fica no site.
+
+As animações usam CSS e APIs nativas do navegador. O controle no cabeçalho
+pausa o movimento e guarda a preferência apenas no próprio navegador.
+Com movimento reduzido no sistema, o vídeo de fundo nem é carregado.
+Vídeo e exemplos automáticos pausam quando saem da tela ou a aba fica oculta.
+O vídeo com narração só reproduz mediante ação do visitante.
+
+O exemplo de palavras é uma simulação identificada, sem upload ou processamento
+de mídia. Depois de uma alteração manual, a animação não desfaz a escolha do
+visitante. As capturas ampliadas mostram o aplicativo real. Os testes cobrem
+interação, teclado, redução de movimento, mídia, links e seis tamanhos de tela.
