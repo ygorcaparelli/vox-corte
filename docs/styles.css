@@ -114,6 +114,17 @@ footer > div { margin-left: auto; display: flex; gap: 24px; }
 footer > div a { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; }
 footer [data-icon] svg { width: 15px; height: 15px; }
 @media (min-width: 1500px) { .hero { padding-top: 60px; } .hero-product img { height: 370px; } }
+@media (min-width: 641px) and (max-height: 850px) {
+  .hero { padding-top: 20px; }
+  h1 { font-size: 56px; margin: 12px 0; }
+  .hero-tagline { font-size: 20px; }
+  .hero-tagline br { display: none; }
+  .hero-description { font-size: 14px; margin-top: 12px; }
+  .hero-actions { margin-top: 16px; }
+  .hero-actions .button { min-height: 46px; padding: 10px 20px; }
+  .hero-product { margin-top: 22px; }
+  .hero-product img { height: 210px; background: transparent; }
+}
 @media (max-width: 1279px) { .principles, footer { margin-left: 40px; margin-right: 40px; } }
 @media (max-width: 900px) { .feature-layout { grid-template-columns: 1fr; gap: 25px; } .feature-list { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; } .feature-tab { display: block; border-bottom: 1px solid var(--line); padding: 18px 12px; } .feature-tab .feature-number { display: block; margin-bottom: 8px; } .feature-tab > [data-icon] { display: none; } .demo-layout, .download-section, .faq-section { gap: 40px; } .demo-layout video { max-height: 470px; } h2 { font-size: 32px; } .download-intro h2 { font-size: 38px; } .hero-product img { height: 300px; } }
 @media (max-width: 640px) {
@@ -156,3 +167,7 @@ footer [data-icon] svg { width: 15px; height: 15px; }
   footer > div { margin-left: 0; width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+@media (max-width: 360px) {
+  .hero-actions .button { font-size: 12px; padding: 12px 10px; }
+  .hero-actions .button-quiet [data-icon] { display: none; }
+}

@@ -33,7 +33,7 @@ const server = http.createServer((request, response) => {
     const errors = [];
     page.on('pageerror', (error) => errors.push(error.message));
     page.on('response', (response) => { if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`); });
-    for (const viewport of [{ width: 1440, height: 1000 }, { width: 1920, height: 1080 }, { width: 768, height: 1024 }, { width: 390, height: 844 }, { width: 320, height: 740 }]) {
+    for (const viewport of [{ width: 1440, height: 1000 }, { width: 1920, height: 1080 }, { width: 1280, height: 720 }, { width: 768, height: 1024 }, { width: 390, height: 844 }, { width: 320, height: 740 }]) {
       await page.setViewportSize(viewport);
       await page.goto(base);
       await page.locator('img').evaluateAll((images) => {
@@ -47,6 +47,7 @@ const server = http.createServer((request, response) => {
       assert.equal(await page.locator('html').getAttribute('lang'), 'pt-BR');
       assert.equal(await page.locator('h1').count(), 1);
       assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Horizontal overflow');
+      assert(await page.locator('.principles').evaluate((element) => element.getBoundingClientRect().top < innerHeight), 'No hint of the next section');
       assert(await page.locator('img').evaluateAll((images) => images.every((image) => image.naturalWidth > 0)), 'Broken image');
       for (const button of await page.locator('a.button').all()) {
         const box = await button.boundingBox();
