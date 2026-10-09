@@ -11,6 +11,11 @@ No GitHub: Settings → Pages → Deploy from a branch → `main` → `/docs`.
 URL esperada: https://ygorcaparelli.github.io/vox-corte/.
 O site não altera o aplicativo desktop e não processa vídeos no navegador.
 
+Para os testes visuais, instale o navegador de teste uma vez com
+`npx playwright install chromium` e execute `node scripts/test_download_site.cjs`.
+O teste inicia e encerra seu próprio servidor temporário. `--live` verifica o
+site publicado. Capturas e resultados ficam em `outputs/site-qa`, fora do Git.
+
 ## Instalador
 
 Instaladores ficam nos **Assets de uma GitHub Release**, nunca no histórico Git.

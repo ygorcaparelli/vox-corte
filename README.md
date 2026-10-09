@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/voxcorte-wordmark.png" alt="Vox Corte" width="360">
+  <img src="docs/assets/voxcorte-app.png" alt="Logo do Vox Corte" width="96" height="96">
 </p>
 
 <h1 align="center">Vox Corte</h1>
@@ -119,7 +119,7 @@ Requisitos de desenvolvimento: Windows x64, Python 3.11/3.12 e Node.js LTS.
 ```powershell
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r backend\requirements.txt
-npm ci
+npm install
 npm run build
 npm start
 ```

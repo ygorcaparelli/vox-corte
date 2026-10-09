@@ -6,7 +6,7 @@ const { chromium } = require('playwright');
 
 const root = path.resolve(__dirname, '..', 'docs');
 const output = path.resolve(__dirname, '..', 'outputs', 'site-qa');
-const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.png': 'image/png', '.mp4': 'video/mp4', '.txt': 'text/plain; charset=utf-8' };
+const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.png': 'image/png', '.mp4': 'video/mp4', '.vtt': 'text/vtt; charset=utf-8', '.txt': 'text/plain; charset=utf-8' };
 const server = http.createServer((request, response) => {
   const file = path.resolve(root, '.' + decodeURIComponent(new URL(request.url, 'http://localhost').pathname));
   const target = file === root ? path.join(root, 'index.html') : file;
@@ -24,7 +24,9 @@ const server = http.createServer((request, response) => {
   try {
     fs.mkdirSync(output, { recursive: true });
     await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
-    const base = `http://127.0.0.1:${server.address().port}/`;
+    const live = process.argv.includes('--live');
+    const base = live ? 'https://ygorcaparelli.github.io/vox-corte/' : `http://127.0.0.1:${server.address().port}/`;
+    const prefix = live ? 'publico-' : '';
     browser = await chromium.launch({ headless: true });
     const context = await browser.newContext({ permissions: ['clipboard-read', 'clipboard-write'] });
     const page = await context.newPage();
@@ -50,8 +52,8 @@ const server = http.createServer((request, response) => {
         const box = await button.boundingBox();
         if (box) assert(box.x >= 0 && box.x + box.width <= viewport.width + 1, 'Button clipped');
       }
-      await page.screenshot({ path: path.join(output, `site-${viewport.width}.png`), fullPage: true });
-      await page.screenshot({ path: path.join(output, `hero-${viewport.width}.png`) });
+      await page.screenshot({ path: path.join(output, `${prefix}site-${viewport.width}.png`), fullPage: true });
+      await page.screenshot({ path: path.join(output, `${prefix}hero-${viewport.width}.png`) });
       checks.push(`Layout ${viewport.width}x${viewport.height}, no overflow or broken images`);
     }
     await page.setViewportSize({ width: 1440, height: 1000 });
@@ -96,7 +98,7 @@ const server = http.createServer((request, response) => {
     assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior), 'auto');
     checks.push('Reduced-motion preference respected');
     assert.deepEqual(errors, []);
-    fs.writeFileSync(path.join(output, 'results.json'), JSON.stringify({ passed: checks, errors }, null, 2));
+    fs.writeFileSync(path.join(output, `${prefix}results.json`), JSON.stringify({ base, passed: checks, errors }, null, 2));
     console.log(JSON.stringify({ passed: checks, errors }, null, 2));
   } finally {
     if (browser) await browser.close();
